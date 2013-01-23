@@ -38,8 +38,10 @@
 * 15': linking jasmine-node src in intellij, try how mocking things works.
 * 25': write down the execution path (with all the entities and connections and whatnot)
 * 40': do user module, write user spec (except the clients part)
+* 20': finish user module. meh.
+* 22': userFactory module
 *
-*22:30*
+*23:12*
 
 
 # structure
