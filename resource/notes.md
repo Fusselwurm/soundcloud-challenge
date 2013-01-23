@@ -33,12 +33,17 @@
 (in between: müll rausbringen)
 *22:30*
 
+## 2013-01-23 21:00 +0100
+
+* 15': linking jasmine-node src in intellij, try how mocking things works.
+* 25': write down the execution path (with all the entities and connections and whatnot)
+
 
 # structure
 
 ## modules
 
-### users
+### userFactory
 
 * factory for users
 * holds existing users
@@ -46,29 +51,64 @@
 ### user
 
 * one user
-* knows his followers
-* can follow/unfollow others
+* knows his followers (methods to follow/unfollow others
+* knows the currently connected clients (methods to add/remove a client)
+* can receive messages (sends those to all his clients)
 
-### message queue
+### eventQueue
 
 * messages can pushed to it
 * emits 'next' event, that gives the next message
-* emits 'error' event
+* optionally - emits 'error' event
 	* if next message takes too long (avoid getting locked!)
 	* if too many messages are in there -> optional extension may be to start dropping msgs with lowest message ids
 
 
-### source
+### sourceServer
 
 * creates socket to listen to source
 * emits 'event' event (mwahaha)
 
-### clients
+### clientServer
 
 * creates socket to listen to clients
 * emits 'connect' event
-*
 
-### controller
 
-*interesting question*: who's the controller here? ive got two servers (for clients and source)... who is driving the whole thing? anothre
+### eventProcessor
+
+* knows where a message should go
+
+## execution path, entities involved
+
+
+_note: I am all for short descriptions, so I'll write "onXXX" instead of "XXX event"_
+
+* main creates sourceServer that:
+	* listens on port 9090
+	* emits onEvent
+* main creates clientServer that:
+	* listens on port 9099
+	* for each client gets the userid and emits onConnect, passing the userid
+	* can be passed a message for a certain client
+	**TODO what is a client? just the pimped socket?**
+* main creates eventQueue that:
+	* emits 'next' event
+* main creates the userFactory that:
+	- knows the user module
+	* can return users by their ID
+	* can return all users in bulk
+	* can return the total user count
+* main creates eventProcessor that:
+	- knows the userFactory
+	* knows how to parse events (the events are so simple I wont write an extra parser module for that)
+	* does what has to be done: gets the respective users and adds/removes followers, passes events...
+* main attaches listener to clientServer.onConnect that:
+	- knows the userFactory
+	* will add clients to the respective users
+* main attaches listener to sourceServer that:
+	- knows the eventQueue
+	* adds events to the eventQueue
+* main attaches listener to eventQueue that:
+	- knows eventProcessor
+	* passes events to the eventProcessor
