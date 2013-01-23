@@ -40,8 +40,9 @@
 * 40': do user module, write user spec (except the clients part)
 * 20': finish user module. meh.
 * 22': userFactory module
-*
-*23:12*
+* 30': eventQueue module. Somewhere in the spec there's a bug, im too stupid for jasmine, me thinks -.-
+* 25': ok, got it. spies are neat, but be careful not to get lost in the maze of calls and arguments
+*00:18*
 
 
 # structure
