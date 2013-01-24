@@ -56,7 +56,8 @@
 *  8': things are getting better. I'm receiving everything, but I dont seem to be sending...
 * 25': change of tactics. parse events upfront, validate first what i get ^^. newEvent function as extra module. tests for validator.
 * 18': switch to event objects all the way
-*23:51*
+* 10': correct for source using \n instead of \r\n
+*00:04*
 
 
 # structure
