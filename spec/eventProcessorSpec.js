@@ -30,8 +30,8 @@ describe('eventProcessor', function () {
 					}
 
 					tmp = newUser(userid);
-					spyOn(tmp, 'follow');
-					spyOn(tmp, 'unfollow');
+					spyOn(tmp, 'follow').andCallThrough();
+					spyOn(tmp, 'unfollow').andCallThrough();
 					spyOn(tmp, 'sendEvent');
 					userSpies[userid] = tmp;
 					return tmp;
@@ -146,30 +146,35 @@ describe('eventProcessor', function () {
 			 */
 
 			it('sends status updates to all follower clients', function () {
-				// first, add some followers:
 				var
 					followedUser = userFactorySpy.getUser(10),
-					followingUserids = [11, 12, 13, 15],
+					followingUsers = [11, 12, 13, 15].map(function (userid) {
+						return userFactorySpy.getUser(userid);
+					}),
 					otherUser = userFactorySpy.getUser(14),
 					event = {
 						seq: 1,
 						type: 'S',
-						from: 10,
+						from: followedUser.getUserid(),
 						to: 0,
-						raw: '1|B'
+						raw: '1|S|' + followedUser.getUserid()
 					};
 
-				spyOn(followedUser, 'getFollowers').andReturn(followingUserids);
+				followingUsers.forEach(function (user) {
+					user.follow(followedUser.getUserid());
+				});
+				otherUser.follow(10);
+				otherUser.unfollow(10);
+
 
 				eventProcessor.processEvent(event);
 
-				expect(followedUser.getFollowers).toHaveBeenCalled();
-
-				followingUserids.forEach(function (userid) {
-					expect(userSpies[userid]).toBeDefined();
-					expect(userSpies[userid].sendEvent).toHaveBeenCalledWith(event);
+				followingUsers.forEach(function (user) {
+					expect(user.sendEvent).toHaveBeenCalledWith(event);
 				});
-				expect(userSpies[14].sendEvent).not.toHaveBeenCalled();
+
+				expect(followedUser.sendEvent).not.toHaveBeenCalled();
+				expect(otherUser.sendEvent).not.toHaveBeenCalled();
 
 			});
 		});

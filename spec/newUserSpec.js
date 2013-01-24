@@ -17,12 +17,12 @@ describe('newUser return value', function () {
 		var
 			tmpFollowers;
 
-		expect(user.getFollowers().length).toBe(0);
+		expect(user.getFollowed().length).toBe(0);
 
 		user.follow(21);
 		user.follow(27);
 
-		tmpFollowers = user.getFollowers();
+		tmpFollowers = user.getFollowed();
 		expect(tmpFollowers.length).toBe(2);
 		expect(tmpFollowers.indexOf(21)).not.toBe(-1);
 		expect(tmpFollowers.indexOf(27)).not.toBe(-1);
@@ -32,7 +32,7 @@ describe('newUser return value', function () {
 		user.follow(1);
 		user.follow(2);
 		user.follow(2);
-		expect(user.getFollowers().length).toBe(2);
+		expect(user.getFollowed().length).toBe(2);
 	});
 	it('will explode on invalid follower ids', function () {
 		var
@@ -52,10 +52,10 @@ describe('newUser return value', function () {
 		user.follow(2);
 		user.follow(3);
 		user.unfollow(2);
-		expect(user.getFollowers().length).toBe(1);
-		expect(user.getFollowers()[0]).toBe(3);
+		expect(user.getFollowed().length).toBe(1);
+		expect(user.getFollowed()[0]).toBe(3);
 		user.unfollow(3);
-		expect(user.getFollowers().length).toBe(0);
+		expect(user.getFollowed().length).toBe(0);
 	});
 	it('will silently fail when ordered to unfollow someone its not currently following', function () {
 		expect(function () {
@@ -66,7 +66,7 @@ describe('newUser return value', function () {
 		expect(function () {
 			user.follow(42);
 		}).not.toThrow();
-		expect(user.getFollowers().length).toBe(0);
+		expect(user.getFollowed().length).toBe(0);
 	});
 	it('can add and remove clients', function () {
 		var

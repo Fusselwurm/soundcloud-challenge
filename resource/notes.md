@@ -57,7 +57,9 @@
 * 25': change of tactics. parse events upfront, validate first what i get ^^. newEvent function as extra module. tests for validator.
 * 18': switch to event objects all the way
 * 10': correct for source using \n instead of \r\n
-*00:04*
+*  6': forgot to notify followed user
+* 30': blegh. I mixed up following and being followed. apart from that: \o/ ALL NOTIFICATIONS RECEIVED \o/
+*00:40*
 
 
 # structure
