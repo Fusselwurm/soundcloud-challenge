@@ -54,7 +54,9 @@
 * 10': connecting the dots (main.js) . moments of breathtaking suspense...
 *  2': eh. Connection resets? I'm a sad panda.
 *  8': things are getting better. I'm receiving everything, but I dont seem to be sending...
-*22:54*
+* 25': change of tactics. parse events upfront, validate first what i get ^^. newEvent function as extra module. tests for validator.
+*
+*23:33*
 
 
 # structure
@@ -95,6 +97,10 @@
 ### eventProcessor
 
 * knows where a message should go
+
+### eventParser
+
+* parses events. surprise.
 
 ## execution path, entities involved
 
