@@ -45,7 +45,13 @@ describe('eventProcessor', function () {
 
 
 			it('passes a private message to the target user', function () {
-				var event = '1|P|3|4'; // message to user 4
+				var event = {
+					seq: 1,
+					type: 'P',
+					from: 3,
+					to: 4,
+					raw: '1|P|3|4'
+				}; // message to user 4
 				eventProcessor.processEvent(event);
 				expect(userSpies[4]).toBeDefined();
 				expect(userSpies[4].sendEvent).toHaveBeenCalledWith(event);
@@ -54,7 +60,13 @@ describe('eventProcessor', function () {
 			});
 
 			it('adds a follower', function () {
-				var event = '1|F|1|2';
+				var event = {
+					seq: 1,
+					type: 'F',
+					from: 1,
+					to: 2,
+					raw: '1|F|1|2'
+				};
 
 				eventProcessor.processEvent(event);
 
@@ -63,7 +75,13 @@ describe('eventProcessor', function () {
 				expect(Object.getOwnPropertyNames(userSpies).length).toBe(1); // only one user needs to have been retrieved by the eventProcessor
 			});
 			it('will unfollow', function () {
-				var event = '1|U|1|2';
+				var event = {
+					seq: 1,
+					type: 'U',
+					from: 1,
+					to: 2,
+					raw: '1|U|1|2'
+				};
 
 				eventProcessor.processEvent(event);
 
@@ -75,7 +93,13 @@ describe('eventProcessor', function () {
 			it('can broadcast... to everybody', function () {
 
 				var
-					event = '1|B',
+					event = {
+						seq: 1,
+						type: 'B',
+						from: 0,
+						to: 0,
+						raw: '1|B'
+					},
 					userids = [1, 2, 3, 4];
 
 				userids.forEach(function (userid) {
@@ -122,7 +146,13 @@ describe('eventProcessor', function () {
 					followedUser = userFactorySpy.getUser(10),
 					followingUserids = [11, 12, 13, 15],
 					otherUser = userFactorySpy.getUser(14),
-					event = '1|S|10';
+					event = {
+						seq: 1,
+						type: 'S',
+						from: 10,
+						to: 0,
+						raw: '1|B'
+					};
 
 				spyOn(followedUser, 'getFollowers').andReturn(followingUserids);
 

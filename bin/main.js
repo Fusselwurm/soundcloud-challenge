@@ -16,14 +16,14 @@ clientServer.on('disconnect', function (userid, socket) {
 	userFactory.getUser(userid).removeClient(socket);
 });
 
-sourceServer.on('event', function (sEvent) {
-	eventQueue.add(sEvent);
+sourceServer.on('event', function (oEvent) {
+	eventQueue.add(oEvent);
 });
 
 eventProcessor.setUserFactory(userFactory);
 
-eventQueue.on('next', function (sEvent) {
-	eventProcessor.processEvent(sEvent);
+eventQueue.on('next', function (oEvent) {
+	eventProcessor.processEvent(oEvent);
 });
 
 

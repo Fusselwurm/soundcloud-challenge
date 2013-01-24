@@ -87,7 +87,9 @@ describe('newUser return value', function () {
 	it('does send events to all clients', function () {
 
 		var
-			event = 'B|X|Y', // some dummy data. user is not the one validating event types.
+			event = {
+				raw: 'B|X|Y'
+			}, // some dummy data. user is not the one validating event types.
 			socket1 = {
 				write: function () {}
 			},
@@ -102,8 +104,8 @@ describe('newUser return value', function () {
 		user.addClient(socket2);
 		user.sendEvent(event);
 
-		expect(socket1.write).toHaveBeenCalledWith(event + '\r\n');
-		expect(socket2.write).toHaveBeenCalledWith(event + '\r\n');
+		expect(socket1.write).toHaveBeenCalledWith(event.raw + '\r\n');
+		expect(socket2.write).toHaveBeenCalledWith(event.raw + '\r\n');
 
 	});
 });
