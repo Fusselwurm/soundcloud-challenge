@@ -44,6 +44,14 @@
 * 25': ok, got it. spies are neat, but be careful not to get lost in the maze of calls and arguments
 *00:18*
 
+## 2013-01-24 20:24
+
+* 30': eventProcessor, event parser.
+* 45': finish eventProcessor.
+* break... 20'
+* 
+*22:20*
+
 
 # structure
 
