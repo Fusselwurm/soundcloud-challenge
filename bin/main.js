@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var
 	libDir = __dirname + '/../lib',
-	sourceServer = require(libDir + '/sourceServer.js').start(),
+	sourceServer = require(libDir + '/sourceServer.js'),
 	clientServer = require(libDir + '/clientServer.js'),
 	eventQueue = require(libDir + '/eventQueue.js'),
 	userFactory = require(libDir + '/userFactory.js'),
@@ -20,9 +20,15 @@ sourceServer.on('event', function (sEvent) {
 	eventQueue.add(sEvent);
 });
 
+eventProcessor.setUserFactory(userFactory);
+
 eventQueue.on('next', function (sEvent) {
 	eventProcessor.processEvent(sEvent);
 });
+
+
+sourceServer.start();
+clientServer.start();
 
 // ... suspense ...
 

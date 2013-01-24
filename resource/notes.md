@@ -52,7 +52,9 @@
 * 20': clientServer. no TDD this time.
 *  5': sourceServer
 * 10': connecting the dots (main.js) . moments of breathtaking suspense...
-*22:52*
+*  2': eh. Connection resets? I'm a sad panda.
+*  8': things are getting better. I'm receiving everything, but I dont seem to be sending...
+*22:54*
 
 
 # structure
