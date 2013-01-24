@@ -42,14 +42,16 @@
 * 22': userFactory module
 * 30': eventQueue module. Somewhere in the spec there's a bug, im too stupid for jasmine, me thinks -.-
 * 25': ok, got it. spies are neat, but be careful not to get lost in the maze of calls and arguments
-*00:18*
+* 20': clientServer. no TDD this time.
+*
+*22:38*
 
 ## 2013-01-24 20:24
 
 * 30': eventProcessor, event parser.
 * 45': finish eventProcessor.
 * break... 20'
-* 
+*
 *22:20*
 
 
@@ -85,9 +87,8 @@
 
 ### clientServer
 
-* creates socket to listen to clients
-* emits 'connect' event
-
+* creates server to listen to clients
+* emits 'connect' event, passing userid & socket
 
 ### eventProcessor
 
@@ -98,14 +99,13 @@
 
 _note: I am all for short descriptions, so I'll write "onXXX" instead of "XXX event"_
 
+
 * main creates sourceServer that:
 	* listens on port 9090
 	* emits onEvent
 * main creates clientServer that:
 	* listens on port 9099
-	* for each client gets the userid and emits onConnect, passing the userid
-	* can be passed a message for a certain client
-	**TODO what is a client? just the pimped socket?**
+	* for each client gets the userid and emits onConnect, passing the userid & the socket
 * main creates eventQueue that:
 	* emits 'next' event
 * main creates the userFactory that:
@@ -119,7 +119,7 @@ _note: I am all for short descriptions, so I'll write "onXXX" instead of "XXX ev
 	* does what has to be done: gets the respective users and adds/removes followers, passes events...
 * main attaches listener to clientServer.onConnect that:
 	- knows the userFactory
-	* will add clients to the respective users
+	* will add clients/sockets to the respective users
 * main attaches listener to sourceServer that:
 	- knows the eventQueue
 	* adds events to the eventQueue
