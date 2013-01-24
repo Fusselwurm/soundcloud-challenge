@@ -1,7 +1,29 @@
 #!/usr/bin/env node
-var x;
+var
+	libDir = __dirname + '/../lib',
+	sourceServer = require(libDir + '/sourceServer.js').start(),
+	clientServer = require(libDir + '/clientServer.js'),
+	eventQueue = require(libDir + '/eventQueue.js'),
+	userFactory = require(libDir + '/userFactory.js'),
+	eventProcessor = require(libDir + '/eventProcessor.js');
 
-require(__dirname + '/../lib/sourceServer.js').start();
-x = require(__dirname + '/../lib/clientServer.js');
-x.start();
+
+clientServer.on('connect', function (userid, socket) {
+	userFactory.getUser(userid).addClient(socket);
+});
+
+clientServer.on('disconnect', function (userid, socket) {
+	userFactory.getUser(userid).removeClient(socket);
+});
+
+sourceServer.on('event', function (sEvent) {
+	eventQueue.add(sEvent);
+});
+
+eventQueue.on('next', function (sEvent) {
+	eventProcessor.processEvent(sEvent);
+});
+
+// ... suspense ...
+
 console.log('server running. me thinks.');

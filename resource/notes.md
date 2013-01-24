@@ -42,17 +42,17 @@
 * 22': userFactory module
 * 30': eventQueue module. Somewhere in the spec there's a bug, im too stupid for jasmine, me thinks -.-
 * 25': ok, got it. spies are neat, but be careful not to get lost in the maze of calls and arguments
-* 20': clientServer. no TDD this time.
-*
-*22:38*
+*00:38*
 
-## 2013-01-24 20:24
+## 2013-01-24 20:24 +0100
 
 * 30': eventProcessor, event parser.
 * 45': finish eventProcessor.
 * break... 20'
-*
-*22:20*
+* 20': clientServer. no TDD this time.
+*  5': sourceServer
+* 10': connecting the dots (main.js) . moments of breathtaking suspense...
+*22:52*
 
 
 # structure
