@@ -59,7 +59,7 @@ describe('eventProcessor', function () {
 				expect(Object.getOwnPropertyNames(userSpies).length).toBe(1); // only one user needs to have been retrieved by the eventProcessor
 			});
 
-			it('adds a follower', function () {
+			it('adds a follower on follow event and notifies the victim', function () {
 				var event = {
 					seq: 1,
 					type: 'F',
@@ -72,7 +72,12 @@ describe('eventProcessor', function () {
 
 				expect(userSpies[1]).toBeDefined();
 				expect(userSpies[1].follow).toHaveBeenCalledWith(2);
-				expect(Object.getOwnPropertyNames(userSpies).length).toBe(1); // only one user needs to have been retrieved by the eventProcessor
+
+
+				expect(userSpies[2]).toBeDefined();
+				expect(userSpies[2].sendEvent).toHaveBeenCalledWith(event);
+
+				expect(Object.getOwnPropertyNames(userSpies).length).toBe(2);
 			});
 			it('will unfollow', function () {
 				var event = {
