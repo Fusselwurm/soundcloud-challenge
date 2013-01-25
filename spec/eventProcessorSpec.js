@@ -3,6 +3,7 @@ var
 	newUser = require(__dirname + '/../lib/newUser.js');
 
 
+//noinspection JSHint
 describe('eventProcessor', function () {
 	it('has a method to set the user factory', function () {
 		expect(eventProcessor.setUserFactory).toBeDefined();
@@ -16,6 +17,7 @@ describe('eventProcessor', function () {
 		describe('processing private messages', function () {
 
 			var userFactorySpy,
+				followerGraphSpy,
 				userSpies;
 
 			// rig all user behaviour.
@@ -23,6 +25,8 @@ describe('eventProcessor', function () {
 			beforeEach(function () {
 				userSpies = {};
 				userFactorySpy = jasmine.createSpy('userFactory');
+				followerGraphSpy = jasmine.createSpy('followeGraph');
+
 				userFactorySpy.getUser = function (userid) {
 					var tmp;
 					if (userSpies[userid]) {
@@ -30,8 +34,6 @@ describe('eventProcessor', function () {
 					}
 
 					tmp = newUser(userid);
-					spyOn(tmp, 'follow').andCallThrough();
-					spyOn(tmp, 'unfollow').andCallThrough();
 					spyOn(tmp, 'sendEvent');
 					userSpies[userid] = tmp;
 					return tmp;
@@ -40,6 +42,15 @@ describe('eventProcessor', function () {
 					return userSpies;
 				};
 				eventProcessor.setUserFactory(userFactorySpy);
+
+
+				followerGraphSpy.follow = function () {};
+				followerGraphSpy.unfollow = function () {};
+				followerGraphSpy.getFollowers = function () {};
+				followerGraphSpy.getFollowTargets = function () {};
+				spyOn(followerGraphSpy, 'follow');
+				spyOn(followerGraphSpy, 'unfollow');
+				eventProcessor.setFollowerGraph(followerGraphSpy);
 			});
 
 
@@ -70,14 +81,12 @@ describe('eventProcessor', function () {
 
 				eventProcessor.processEvent(event);
 
-				expect(userSpies[1]).toBeDefined();
-				expect(userSpies[1].follow).toHaveBeenCalledWith(2);
-
+				expect(followerGraphSpy.follow).toHaveBeenCalledWith(1, 2);
 
 				expect(userSpies[2]).toBeDefined();
 				expect(userSpies[2].sendEvent).toHaveBeenCalledWith(event);
 
-				expect(Object.getOwnPropertyNames(userSpies).length).toBe(2);
+				expect(Object.getOwnPropertyNames(userSpies).length).toBe(1);
 			});
 			it('will unfollow', function () {
 				var event = {
@@ -90,10 +99,8 @@ describe('eventProcessor', function () {
 
 				eventProcessor.processEvent(event);
 
-				expect(userSpies[1]).toBeDefined();
-				expect(userSpies[1].unfollow).toHaveBeenCalledWith(2);
-				expect(userSpies[1].follow).not.toHaveBeenCalled(); // be sure thats the only thing that was called!
-				expect(Object.getOwnPropertyNames(userSpies).length).toBe(1); // only one user needs to have been retrieved by the eventProcessor
+				expect(followerGraphSpy.unfollow).toHaveBeenCalledWith(1, 2);
+				expect(followerGraphSpy.follow).not.toHaveBeenCalled(); // be sure thats the only thing that was called!
 			});
 			it('can broadcast... to everybody', function () {
 
@@ -141,22 +148,20 @@ describe('eventProcessor', function () {
 						raw: '1|S|' + followedUser.getUserid()
 					};
 
-				followingUsers.forEach(function (user) {
-					user.follow(followedUser.getUserid());
-				});
-				otherUser.follow(10);
-				otherUser.unfollow(10);
 
 
+				spyOn(followerGraphSpy, 'getFollowers').andReturn([11, 12, 13, 15]);
+				spyOn(followerGraphSpy, 'getFollowTargets').andReturn([11, 12, 13, 15]);
 				eventProcessor.processEvent(event);
 
 				followingUsers.forEach(function (user) {
 					expect(user.sendEvent).toHaveBeenCalledWith(event);
 				});
 
+				expect(followerGraphSpy.getFollowers).toHaveBeenCalledWith(10);
+
 				expect(followedUser.sendEvent).not.toHaveBeenCalled();
 				expect(otherUser.sendEvent).not.toHaveBeenCalled();
-
 			});
 		});
 	});

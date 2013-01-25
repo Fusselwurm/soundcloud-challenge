@@ -5,6 +5,7 @@ var
 	clientServer = require(libDir + '/clientServer.js'),
 	eventQueue = require(libDir + '/eventQueue.js'),
 	userFactory = require(libDir + '/userFactory.js'),
+	followerGraph = require(libDir + '/followerGraph.js'),
 	eventProcessor = require(libDir + '/eventProcessor.js');
 
 
@@ -21,6 +22,7 @@ sourceServer.on('event', function (oEvent) {
 });
 
 eventProcessor.setUserFactory(userFactory);
+eventProcessor.setFollowerGraph(followerGraph);
 
 eventQueue.on('next', function (oEvent) {
 	eventProcessor.processEvent(oEvent);

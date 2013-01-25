@@ -1,6 +1,7 @@
 var eventQueue = require(__dirname + '/../lib/eventQueue.js'),
 	randomEvent;
 
+//noinspection JSHint
 describe('eventQueue', function () {
 
 	beforeEach(function () {

@@ -2,6 +2,7 @@ var
 	factory = require(__dirname + '/../lib/userFactory.js');
 
 
+//noinspection JSHint
 describe('userFactory', function () {
 
 	beforeEach(function () {

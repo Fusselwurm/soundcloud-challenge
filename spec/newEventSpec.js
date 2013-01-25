@@ -1,5 +1,6 @@
 var newEvent = require(__dirname + '/../lib/newEvent.js');
 
+//noinspection JSHint
 describe('newEvent', function () {
 	it('parses follows', function () {
 		['1|F|6|10', '445|F|9879435|23134'].forEach(function (val) {

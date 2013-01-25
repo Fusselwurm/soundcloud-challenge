@@ -31,6 +31,7 @@
 * 10': re-reading instructions. me thinks me now understand better. ^^ i had mentally skipped the follow/unfollow events. a-ha... ^^
 * 20': thinking of structure. which entities do i have, what do they do...
 (in between: müll rausbringen)
+
 *22:30*
 
 ## 2013-01-23 21:00 +0100
@@ -42,6 +43,7 @@
 * 22': userFactory module
 * 30': eventQueue module. Somewhere in the spec there's a bug, im too stupid for jasmine, me thinks -.-
 * 25': ok, got it. spies are neat, but be careful not to get lost in the maze of calls and arguments
+
 *00:38*
 
 ## 2013-01-24 20:24 +0100
@@ -59,7 +61,12 @@
 * 10': correct for source using \n instead of \r\n
 *  6': forgot to notify followed user
 * 30': blegh. I mixed up following and being followed. apart from that: \o/ ALL NOTIFICATIONS RECEIVED \o/
+
 *00:40*
+
+## 2013-01-25 18:30 +0100
+
+Extracted followerGraph from user model. being tired and not very concentrated - also, refactorings are always expensive - plus a chat or two with a colleague - meant it took until right now (21:30). blegh.
 
 
 # structure
