@@ -76,7 +76,7 @@ describe('newEvent', function () {
 					newEvent(s);
 					console.log('wait... that shouldnt have worked!' + s);
 				}).toThrow();
-		});
+			});
 	});
 
 	it('remembers its raw data. has to.', function () {
